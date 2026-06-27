@@ -1,9 +1,36 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/widgets/Hero.astro';
+
+const metadata = {
+  title: 'Re-Vision Digital | WaaS Agency in Sabah',
+  ignoreTitleTemplate: true,
+};
 ---
 
-<MainLayout title="Re-Vision Digital | Web Agency Sabah">
-  <h1 class="text-brand-400 font-display p-8">
-    Re-Vision Digital
-  </h1>
+<MainLayout metadata={metadata}>
+  
+  <!-- Hero Widget -->
+  <Hero 
+    actions={[
+      {
+        variant: 'primary',
+        text: 'WhatsApp Up',
+        href: 'https://wa.me/60123456789',
+        target: '_blank',
+        icon: 'tabler:brand-whatsapp', 
+      },
+      { text: 'Lihat Pakej', href: '#pricing' },
+    ]}
+    image={{ src: '~/assets/images/hero-image.png', alt: 'Re-Vision Digital Hero Image' }}
+  >
+    <Fragment slot="title">
+      Digitalize Your Business with Us
+    </Fragment>
+    
+    <Fragment slot="subtitle">
+      We build professional websites for warungs, cafes, and clinics as low as RM199/month.
+    </Fragment>
+  </Hero>
+
 </MainLayout>
