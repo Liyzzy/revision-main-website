@@ -1,0 +1,72 @@
+site:
+  name: Re-Vision Digital
+  site: https://revisiondigital.my # Will change to actual deployed url site later
+  base:'/'
+  trailingSlash: false
+
+  googleSiteVerificationId: '' # Fill after deploying
+
+# Default SEO metadata
+metadata:
+  title:
+    default: 'Re-Vision Digital | Web Agency Sabah'
+    template: '%s — Re-Vision Digital'
+  description: "Re-Vision Digital is a web agency based in Sabah, Malaysia, specializing in creating stunning websites and digital solutions for businesses of all sizes. We are dedicated to delivering high-quality web design, development, and digital marketing services that help our clients succeed online."
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: Iyzman Daniel
+    images:
+      - url: '~/assets/images/default.png'  # Replace with your own OG image later
+        width: 1200
+        height: 628
+    type: website
+  twitter:
+    handle: '@iyzmandaniel'     # Replace with your actual Twitter/X handle
+    site: '@iyzmandaniel'       # Same as handle
+    cardType: summary_large_image
+
+i18n:
+  language: en
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: true
+    postsPerPage: 6
+
+    post:
+      isEnabled: true
+      permalink: '/%slug%'
+      robots:
+        index: true
+
+    list:
+      isEnabled: true
+      pathname: 'blog'
+      robots:
+        index: true
+
+    category:
+      isEnabled: true
+      pathname: 'category'
+      robots:
+        index: true
+
+    tag:
+      isEnabled: true
+      pathname: 'tag'
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: true
+    relatedPostsCount: 4
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null  # Add your "G-XXXXXXXXXX" after deploying and setting up GA4
+
+ui:
+  theme: 'light'  # Personal portfolio looks great dark; options: "system" | "light" | "dark"
