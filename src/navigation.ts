@@ -1,4 +1,4 @@
-import { getPermalink, getBlogPermalink } from './utils/permalinks';
+import { getPermalink } from './utils/permalinks';
 
 export const headerData = {
   links: [
@@ -37,9 +37,9 @@ export const footerData = {
     {
       title: 'Website Packages',
       links: [
-        { text: 'Starter Plan (RM199/bln)', href: getPermalink('/#pricing') },
-        { text: 'Growth Plan (RM299/bln)', href: getPermalink('/#pricing') },
-        { text: 'Custom Enterprise', href: getPermalink('/#pricing') },
+        { text: 'Starter Plan (RM199/bln)', href: getPermalink('/pricing') },
+        { text: 'Growth Plan (RM299/bln)', href: getPermalink('/pricing') },
+        { text: 'Custom Enterprise', href: getPermalink('/pricing') },
       ],
     },
     {

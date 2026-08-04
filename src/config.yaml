@@ -1,7 +1,7 @@
 site:
   name: Re-Vision Digital
   site: https://revisiondigital.my # Will change to actual deployed url site later
-  base:'/'
+  base: '/'
   trailingSlash: false
 
   googleSiteVerificationId: '' # Fill after deploying

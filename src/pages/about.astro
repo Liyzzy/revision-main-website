@@ -1,20 +1,19 @@
 ---
+import MainLayout from '../layouts/MainLayout.astro';
 
+const title = 'About Us — Re-Vision Digital';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About</title>
-  </head>
-  <body>
-    <h1>My Astro Site</h1>
-    <h1>About Me</h1>
-    <h2>... and my new Astro site!</h2>
-
-    <p>I am working through Astro's introductory tutorial. This is the second page on my website !</p>
-
-    <p>This site will update as I complete more of the tutorial, so keep checking back and see how my journey is going!</p>
-</body>
-</html>
+<MainLayout title={title}>
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 py-20">
+    <h1 class="text-4xl font-bold font-display mb-4">About Re-Vision Digital</h1>
+    <p class="text-lg text-text-muted mb-4">
+      We're a Sabah-based web team building fast, modern websites for local businesses —
+      warungs, cafes, clinics, and other SMEs that want a professional online presence
+      without the usual agency price tag.
+    </p>
+    <p class="text-lg text-text-muted">
+      This page is still a placeholder. Add your team story, mission, and photos here.
+    </p>
+  </section>
+</MainLayout>

@@ -1,5 +1,7 @@
 ---
-// No props needed for now
+import { headerData } from '../navigation';
+
+const whatsappHref = headerData.actions[0]?.href ?? '#';
 ---
 
 <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
@@ -13,15 +15,14 @@
 
     <!-- Desktop Nav -->
     <nav class="hidden md:flex items-center gap-8">
-      <a href="#services" class="text-sm font-medium text-text-muted hover:text-brand-400 transition-colors no-underline">Services</a>
-      <a href="#portfolio" class="text-sm font-medium text-text-muted hover:text-brand-400 transition-colors no-underline">Portfolio</a>
-      <a href="#pricing" class="text-sm font-medium text-text-muted hover:text-brand-400 transition-colors no-underline">Pricing</a>
-      <a href="#faq" class="text-sm font-medium text-text-muted hover:text-brand-400 transition-colors no-underline">FAQ</a>
+      {headerData.links.map((link) => (
+        <a href={link.href} class="text-sm font-medium text-text-muted hover:text-brand-400 transition-colors no-underline">{link.text}</a>
+      ))}
     </nav>
 
     <!-- CTA Button -->
     <a
-      href="https://wa.me/60XXXXXXXXX"
+      href={whatsappHref}
       target="_blank"
       rel="noopener noreferrer"
       class="hidden md:inline-flex items-center gap-2 bg-brand-400 hover:bg-brand-500 text-white text-sm font-semibold px-5 py-2 rounded-full transition-all no-underline"
@@ -47,11 +48,10 @@
 
   <!-- Mobile Menu Dropdown -->
   <div id="mobile-menu" class="hidden md:hidden bg-surface border-t border-border px-6 py-4 flex flex-col gap-4">
-    <a href="#services" class="text-sm font-medium text-text-muted">Services</a>
-    <a href="#portfolio" class="text-sm font-medium text-text-muted">Portfolio</a>
-    <a href="#pricing" class="text-sm font-medium text-text-muted">Pricing</a>
-    <a href="#faq" class="text-sm font-medium text-text-muted">FAQ</a>
-    <a href="https://wa.me/60XXXXXXXXX" target="_blank" class="bg-brand-400 text-white text-sm font-semibold px-5 py-2 rounded-full text-center">
+    {headerData.links.map((link) => (
+      <a href={link.href} class="text-sm font-medium text-text-muted">{link.text}</a>
+    ))}
+    <a href={whatsappHref} target="_blank" class="bg-brand-400 text-white text-sm font-semibold px-5 py-2 rounded-full text-center">
       WhatsApp Us
     </a>
   </div>

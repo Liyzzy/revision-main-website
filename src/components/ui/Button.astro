@@ -1,5 +1,5 @@
----
-import { Icon } from 'astro-icon/components';
+\---
+import Icon from './Icon.astro';
 import { twMerge } from 'tailwind-merge';
 import type { CallToAction as Props} from '~/types';
 
@@ -13,11 +13,11 @@ const {
     ...rest
 } = Astro.props;
 
-const variants = {
-    primary : 'btn-primary',
-    secondary : 'btn btn-tertiary',
-    tertiary : 'btn btn-tertiary',
-    link: 'cursor-pointer hover:text-primary',
+const variants: Record<string, string> = {
+    primary: 'inline-flex items-center gap-2 bg-brand-400 hover:bg-brand-500 text-white text-sm font-semibold px-5 py-2 rounded-full transition-all no-underline',
+    secondary: 'inline-flex items-center gap-2 border border-border text-text hover:bg-surface-2 text-sm font-semibold px-5 py-2 rounded-full transition-all no-underline',
+    tertiary: 'inline-flex items-center gap-2 border border-border text-text hover:bg-surface-2 text-sm font-semibold px-5 py-2 rounded-full transition-all no-underline',
+    link: 'inline-flex items-center gap-1 text-brand-400 hover:text-brand-500 underline-offset-4 hover:underline',
 };
 ---
 

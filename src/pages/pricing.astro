@@ -1,0 +1,50 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const title = 'Pricing - Re-Vision Digital';
+
+const packages = [
+    {
+        name : 'Starter',
+        price : 'RM199/month',
+        features : [
+            'Basic Website Design',
+            'Up to 5 Pages',
+            'Responsive Layout',
+            'Contact Form'
+        ]
+    },
+    {
+        name: 'Growth',
+        price: 'RM299/bln',
+        features: ['Up to 5 pages', 'WhatsApp button', 'Basic SEO', 'Contact form'],
+    },
+    {
+        name: 'Custom Enterprise',
+        price: 'Contact us',
+        features: ['Unlimited pages', 'Custom features', 'Priority support'],
+    },
+];
+---
+
+<MainLayout title={title}>
+    <section class="max-w-3xl mx-auto px-4 sm:px-6 py-20">
+        <div class="grid gap-6 sm:grid-cols-3">
+            {packages.map((pkg) => (
+                <div class="border border-border rounded-lg p-6">
+                <h2 class="text-xl font-bold font-display">{pkg.name}</h2>
+                <p class="text-2xl font-bold text-brand-400 my-2">{pkg.price}</p>
+                <ul class="text-text-muted text-sm space-y-1">
+                    {pkg.features.map((f) => <li>{f}</li>)}
+                </ul>
+                </div>
+            ))}
+        </div>
+        <p class="text-lg text-text-muted mb-4">
+            We offer simple, transparent pricing for our web design services. Our goal is to provide high-quality websites at a fair price for small businesses in Sabah.
+        </p>
+        <p class="text-lg text-text-muted">
+            Please contact us for a custom quote based on your specific needs and requirements.
+        </p>
+    </section>
+</MainLayout>

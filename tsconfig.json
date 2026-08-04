@@ -3,9 +3,9 @@
   "compilerOptions": {
     "strictNullChecks": true,
     "allowJs": true,
-    "baseUrl": ".", 
+    "baseUrl": ".",
     "paths": {
-      
+      "~/*": ["src/*"]
     }
   }
 }

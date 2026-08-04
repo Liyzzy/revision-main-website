@@ -2,27 +2,25 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import Hero from '../components/widgets/Hero.astro';
 
-const metadata = {
-  title: 'Re-Vision Digital | WaaS Agency in Sabah',
-  ignoreTitleTemplate: true,
-};
+const title = 'Re-Vision Digital | WaaS Agency in Sabah';
 ---
 
-<MainLayout metadata={metadata}>
-  
+<MainLayout title={title}>
+
   <!-- Hero Widget -->
-  <Hero 
+  <!-- No hero image yet — drop one in public/ and pass
+       image={{ src: '/your-image.png', alt: '...' }} once you have it. -->
+  <Hero
     actions={[
       {
         variant: 'primary',
         text: 'WhatsApp Up',
         href: 'https://wa.me/60123456789',
         target: '_blank',
-        icon: 'tabler:brand-whatsapp', 
+        icon: 'tabler:brand-whatsapp',
       },
       { text: 'Lihat Pakej', href: '#pricing' },
     ]}
-    image={{ src: '~/assets/images/hero-image.png', alt: 'Re-Vision Digital Hero Image' }}
   >
     <Fragment slot="title">
       Digitalize Your Business with Us
