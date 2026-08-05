@@ -1,0 +1,18 @@
+# Normalise line endings.
+#
+# Windows editors tend to save files with CRLF line endings. Git then sees
+# every single line as changed, which turns a 5-line edit into a 200-line diff
+# and makes history useless for review.
+#
+# `text=auto eol=lf` tells git to store everything as LF in the repository
+# while leaving your working copy alone. Nothing about how you edit changes.
+* text=auto eol=lf
+
+# Binary files git must never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
