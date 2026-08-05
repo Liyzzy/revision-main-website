@@ -1,3 +1,5 @@
+import type { ImageMetadata } from 'astro';
+
 export interface CallToAction {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
   text?: string;
@@ -15,6 +17,6 @@ export interface Hero {
   tagline?: string;
   content?: string;
   actions?: CallToAction[] | string;
-  image?: { src: string; alt?: string } | string;
+  image?: { src: ImageMetadata | string; alt?: string } | string;
   bg?: string;
 }
