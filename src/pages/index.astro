@@ -1,34 +1,114 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import Hero from '../components/widgets/Hero.astro';
+import Button from '../components/ui/Button.astro';
+import ProjectCard from '../components/ui/ProjectCard.astro';
+import Steps from '../components/widgets/Steps.astro';
+import { projects } from '../data/projects';
+import { steps } from '../data/steps';
+import { whatsappLink } from '../navigation';
+import heroImage from '../assets/images/hero-mockup.svg';
 
 const title = 'Re-Vision Digital | WaaS Agency in Sabah';
+
+// Homepage shows a teaser, not the full portfolio.
+const featuredProjects = projects.slice(0, 3);
+
+const services = [
+  {
+    title: 'Website Development',
+    description: 'We build fast and modern websites for Sabah SME Businesses.',
+  },
+  {
+    title: 'E-Commerce Solutions',
+    description: 'We provide e-commerce solutions to help you sell online.',
+  },
+  {
+    title: 'Digital Marketing',
+    description: 'We help you reach your target audience through digital marketing.',
+  },
+];
+
 ---
 
 <MainLayout title={title}>
 
   <!-- Hero Widget -->
-  <!-- No hero image yet — drop one in public/ and pass
-       image={{ src: '/your-image.png', alt: '...' }} once you have it. -->
   <Hero
+    image={{
+      src: heroImage,
+      alt: 'A Re-Vision Digital website shown on a laptop and a phone, with a WhatsApp chat button',
+    }}
     actions={[
       {
         variant: 'primary',
-        text: 'WhatsApp Up',
-        href: 'https://wa.me/60123456789',
+        text: 'WhatsApp Us',
+        href: whatsappLink(),
         target: '_blank',
         icon: 'tabler:brand-whatsapp',
       },
-      { text: 'Lihat Pakej', href: '#pricing' },
+      { text: 'View Packages', href: '/pricing' },
     ]}
   >
+    <!-- brand-500, not brand-400: at 4.73:1 against white it clears the
+         contrast minimum, where brand-400 only manages 3.55:1. -->
     <Fragment slot="title">
-      Digitalize Your Business with Us
+      Digitalize Your Business <span class="text-brand-500">with Us</span>
     </Fragment>
     
     <Fragment slot="subtitle">
       We build professional websites for warungs, cafes, and clinics as low as RM199/month.
     </Fragment>
   </Hero>
+  
+  <!-- Services Section -->
+  <section class="py-16 bg-background">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-8 text-center">Our Services</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {services.map((service) => (
+          <div class="bg-surface p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 class="text-xl font-semibold mb-4">{service.title}</h3>
+            <p class="text-text-muted">{service.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works — the objection-killer section.
+       Sits right after Services on purpose: the visitor has just learned
+       what you sell, and their next thought is "sounds complicated". -->
+  <Steps
+    id="how-it-works"
+    tagline="How it works"
+    title="Getting online is easier than you think"
+    subtitle="No technical knowledge needed. No long meetings. Three steps and your business is online."
+    items={steps}
+  >
+    <Button
+      slot="action"
+      variant="primary"
+      href={whatsappLink('Hi Re-Vision Digital, I want to get my business online.')}
+      target="_blank"
+      icon="tabler:brand-whatsapp"
+    >
+      Start on WhatsApp
+    </Button>
+  </Steps>
+
+  <!-- Project/Portfolio Section -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-8 text-center">Our Work</h2>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {featuredProjects.map((project) => <ProjectCard {...project} />)}
+      </div>
+      <div class="text-center mt-10">
+        <Button variant="secondary" href="/projects">View All Projects</Button>
+      </div>
+    </div>
+  </section>
+
 
 </MainLayout>
