@@ -1,3 +1,9 @@
+/**
+ * NOT USED ANYMORE. Tailwind v4 reads design tokens from CSS now
+ * (see the @theme block at the top of src/styles/global.css), not from
+ * this file. Keeping it around for reference only — safe to delete once
+ * you're comfortable everything still looks right without it.
+ */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
