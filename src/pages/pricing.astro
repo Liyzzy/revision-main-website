@@ -3,21 +3,51 @@ import MainLayout from '../layouts/MainLayout.astro';
 
 const title = 'Pricing - Re-Vision Digital';
 
+const faqs = [
+  {
+    question: 'How long does it take to build my website?',
+    answer: 'Most websites are ready within 1–2 weeks, depending on the package and how quickly we get your content and feedback.',
+  },
+  {
+    question: "What's the difference between the Starter and Growth plans?",
+    answer: 'Starter gets you a clean 1-page site with the essentials — WhatsApp button, basic SEO, responsive design. Growth adds up to 5 pages, a contact form, and more room to showcase your business.',
+  },
+  {
+    question: 'Do I need to know how to code or manage the website myself?',
+    answer: "No — we handle the setup and updates for you. If you ever want to make changes yourself, we can walk you through it too.",
+  },
+  {
+    question: 'Do you provide hosting and a domain name?',
+    answer: 'Yes, hosting is included in your monthly package. A custom domain (like yourbusiness.com) can be added for a small extra fee, or you can start with the free subdomain we provide.',
+  },
+  {
+    question: 'Can my website be in Bahasa Malaysia, English, or both?',
+    answer: 'Yes, we can build your site in either language or both, depending on who your customers are.',
+  },
+  {
+    question: 'What if I want to cancel or switch plans later?',
+    answer: 'Our packages are billed monthly with no long-term lock-in contract — you can upgrade, downgrade, or cancel anytime.',
+  },
+];
+
+// These features must stay consistent with the FAQ above — the two used to
+// contradict each other (Starter claimed "Up to 5 Pages" while the FAQ said
+// Starter was a 1-page site, and Growth listed the same 5 pages).
 const packages = [
     {
         name : 'Starter',
         price : 'RM199/month',
         features : [
-            'Basic Website Design',
-            'Up to 5 Pages',
-            'Responsive Layout',
-            'Contact Form'
+            'Clean 1-page website',
+            'WhatsApp button',
+            'Responsive on mobile',
+            'Basic SEO setup',
         ]
     },
     {
         name: 'Growth',
-        price: 'RM299/bln',
-        features: ['Up to 5 pages', 'WhatsApp button', 'Basic SEO', 'Contact form'],
+        price: 'RM299/month',
+        features: ['Everything in Starter', 'Up to 5 pages', 'Contact form', 'Priority updates'],
     },
     {
         name: 'Custom Enterprise',
@@ -28,8 +58,12 @@ const packages = [
 ---
 
 <MainLayout title={title}>
-    <section class="max-w-3xl mx-auto px-4 sm:px-6 py-20">
-        <div class="grid gap-6 sm:grid-cols-3">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 py-20">
+        <h1 class="text-4xl font-bold font-display mb-4 text-center">Packages and Prices</h1>
+        <p class="text-lg text-text-muted mb-10 text-center mx-auto">
+            Simple monthly pricing, no long-term contract.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {packages.map((pkg) => (
                 <div class="border border-border rounded-lg p-6">
                 <h2 class="text-xl font-bold font-display">{pkg.name}</h2>
@@ -40,11 +74,26 @@ const packages = [
                 </div>
             ))}
         </div>
-        <p class="text-lg text-text-muted mb-4">
+        <p class="text-lg text-text-muted mb-4 mt-10">
             We offer simple, transparent pricing for our web design services. Our goal is to provide high-quality websites at a fair price for small businesses in Sabah.
         </p>
         <p class="text-lg text-text-muted">
             Please contact us for a custom quote based on your specific needs and requirements.
         </p>
+    </section>
+
+    <!-- id="faq" so the footer's FAQ link has something real to jump to. -->
+    <section id="faq" class="py-16 bg-background scroll-mt-20">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <h2 class="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+        <div>
+          {faqs.map((faq) => (
+            <div class="border-b border-border py-4">
+              <h3 class="font-semibold mb-2">{faq.question}</h3>
+              <p class="text-text-muted">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
 </MainLayout>
