@@ -1,0 +1,36 @@
+---
+import Button from './Button.astro';
+import type { Project } from '../../data/projects';
+
+type Props = Project;
+
+const { name, description, image, link } = Astro.props;
+---
+
+<article class="border border-border rounded-lg p-6 h-full flex flex-col">
+  {
+    image ? (
+      <img
+        src={image}
+        alt={`Screenshot of the ${name} website`}
+        loading="lazy"
+        class="w-full h-40 object-cover rounded-lg mb-4"
+      />
+    ) : (
+      <div
+        class="w-full h-40 bg-surface-2 rounded-lg mb-4 flex items-center justify-center text-text-faint text-sm"
+        aria-hidden="true"
+      >
+        Image coming soon
+      </div>
+    )
+  }
+  <h3 class="text-xl font-bold font-display">{name}</h3>
+  <p class="text-text-muted text-sm my-2 flex-1">{description}</p>
+  {/* Only render the link if a case-study page actually exists. */}
+  {link && (
+    <Button variant="link" href={link} class="self-start">
+      View Project
+    </Button>
+  )}
+</article>
