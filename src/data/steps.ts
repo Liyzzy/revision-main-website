@@ -1,12 +1,3 @@
-/**
- * The "How it works" steps shown on the homepage.
- *
- * Kept as data (not hardcoded in the markup) for the same reason as
- * projects.ts — you edit the words here, the layout stays untouched.
- *
- * Keep these SHORT. The whole point of this section is to make a
- * non-technical business owner feel like this is easy.
- */
 export interface Step {
   title: string;
   description: string;

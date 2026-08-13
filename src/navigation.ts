@@ -5,13 +5,8 @@ import { getPermalink } from './utils/permalinks';
 // Format: country code + number, no +, no spaces, no dashes.
 // Malaysia example: 011-1234 5678  ->  601112345678
 // ============================================================
-export const WHATSAPP_NUMBER = '60123456789'; // TODO: replace with the real business number
+export const WHATSAPP_NUMBER = '60178522267'; 
 
-/**
- * Builds a wa.me link with an optional pre-filled message.
- * encodeURIComponent handles the spaces/punctuation so you never
- * have to hand-write %20 in a URL again.
- */
 export const whatsappLink = (message = 'Hi Re-Vision Digital, saya berminat!') =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 

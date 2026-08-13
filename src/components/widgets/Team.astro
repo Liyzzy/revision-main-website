@@ -1,0 +1,39 @@
+---
+import type { TeamMember } from '../../data/team';
+import TeamMemberCard from '../ui/TeamMemberCard.astro';
+
+interface Props {
+    id?: string;
+    tagline?: string;
+    title?: string;
+    subtitle?: string;
+    items: TeamMember[];
+}
+
+const { id, tagline, title, subtitle, items } = Astro.props;
+---
+
+<section id={id} class="py-16 md:py-24 bg-surface scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+    <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+      {tagline && (
+        <p class="text-sm text-brand-400 font-bold tracking-wide uppercase mb-2">{tagline}</p>
+      )}
+      {title && <h2 class="text-3xl font-bold font-display mb-4">{title}</h2>}
+      <!-- mx-auto counteracts the global `p { max-width: 72ch }` rule, which
+           would otherwise left-align this text inside a centred column. -->
+      {subtitle && (
+        <p class="text-lg text-text-muted mx-auto">{subtitle}</p>
+      )}
+    </div>
+
+    <ul class="grid gap-10 md:grid-cols-3 md:gap-8">
+      {items.map((member) => (
+        <li>
+          <TeamMemberCard {...member} />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
