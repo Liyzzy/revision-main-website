@@ -1,0 +1,360 @@
+---
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { WEB3FORMS_ACCESS_KEY, isAccessKeyConfigured, FORM_SUBJECT, packageOptions } from '../../data/contact';
+import { whatsappLink } from '../../navigation';
+
+interface Props {
+  id?: string;
+  tagline?: string;
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  id = 'enquiry',
+  tagline = 'Send us a message',
+  title = 'Tell us about your business',
+  subtitle = 'Fill this in and we will reply as soon as possible.',
+} = Astro.props;
+
+// Same dev-only warning pattern as Icon.astro. Without it a placeholder key
+// fails completely silently: the form submits, the visitor sees the thank-you
+// panel, and the enquiry goes nowhere.
+if (import.meta.env.DEV && !isAccessKeyConfigured) {
+  console.warn(
+    '[ContactForm] WEB3FORMS_ACCESS_KEY is still the placeholder — submissions will fail. Fix it in src/data/contact.ts.'
+  );
+}
+
+const labelClass = 'block text-sm font-semibold mb-1.5';
+const fieldClass =
+  'w-full rounded-lg border border-border bg-background px-4 py-2.5 text-base text-text placeholder:text-text-faint focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-400/40 aria-[invalid=true]:border-red-500';
+const errorClass = 'mt-1.5 text-sm text-red-600';
+---
+
+<!--
+  Contact form, posted to Web3Forms.
+
+  Why a third-party endpoint: Astro builds this site to static HTML, so there's
+  no server of ours to receive a POST. Web3Forms takes the submission and emails
+  it on. Swapping providers later means changing one URL and one hidden field.
+
+  Progressive enhancement is deliberate. The <form> has a real action and
+  method, so it still works with JavaScript switched off (the visitor just gets
+  Web3Forms' own thank-you page instead of ours). The script below sets
+  noValidate and takes over only once it has actually run, which is also why the
+  custom error messages live in the script rather than the markup.
+-->
+<section id={id} class="py-16 md:py-24 bg-surface scroll-mt-20">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6">
+
+    <div class="text-center mb-10 md:mb-12">
+      {tagline && <p class="text-sm text-brand-400 font-bold tracking-wide uppercase mb-2">{tagline}</p>}
+      {title && <h2 class="text-3xl font-bold font-display mb-4">{title}</h2>}
+      <!-- mx-auto counteracts the global `p { max-width: 72ch }` rule, which
+           would otherwise left-align this inside a centred column. -->
+      {subtitle && <p class="text-lg text-text-muted mx-auto">{subtitle}</p>}
+    </div>
+
+    <div class="rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm">
+
+      <!-- Success panel. Hidden until a submission comes back clean, at which
+           point the form is hidden and focus moves here — otherwise a screen
+           reader user tabs on into a form that is no longer visible. -->
+      <div id="form-success" class="hidden text-center py-8" tabindex="-1">
+        <span
+          class="mx-auto mb-5 w-14 h-14 rounded-full bg-brand-400 text-white flex items-center justify-center"
+          aria-hidden="true"
+        >
+          <Icon name="tabler:check" class="w-8 h-8" />
+        </span>
+        <h3 class="text-xl font-bold font-display mb-3">Got it, thank you</h3>
+        <p class="text-text-muted mx-auto mb-6">
+          Your enquiry is in our inbox. We usually reply within one working day.
+          If it's urgent, message us on WhatsApp and you'll get an answer sooner.
+        </p>
+        <Button
+          variant="secondary"
+          href={whatsappLink('Hi Re-Vision Digital, I just sent an enquiry through your website.')}
+          target="_blank"
+          icon="tabler:brand-whatsapp"
+        >
+          Message us on WhatsApp
+        </Button>
+      </div>
+
+      <form
+        id="contact-form"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+        class="grid gap-5 sm:grid-cols-2"
+      >
+        <!-- Web3Forms plumbing. `access_key` routes the mail, `subject` and
+             `from_name` are what you see in your inbox before opening it. -->
+        <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+        <input type="hidden" name="subject" value={FORM_SUBJECT} />
+        <input type="hidden" name="from_name" value="Re-Vision Digital Website" />
+
+        <input
+          type="checkbox"
+          name="botcheck"
+          class="hidden"
+          style="display:none"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+        />
+
+        <div>
+          <label for="cf-name" class={labelClass}>Your name</label>
+          <input
+            type="text"
+            id="cf-name"
+            name="name"
+            required
+            autocomplete="name"
+            placeholder="Foo Yishyan"
+            class={fieldClass}
+            aria-describedby="cf-name-error"
+          />
+          <p id="cf-name-error" class={errorClass} hidden></p>
+        </div>
+
+        <div>
+          <label for="cf-business" class={labelClass}>Business name</label>
+          <input
+            type="text"
+            id="cf-business"
+            name="business"
+            required
+            autocomplete="organization"
+            placeholder="Fatt Kee Sdn Bhd"
+            class={fieldClass}
+            aria-describedby="cf-business-error"
+          />
+          <p id="cf-business-error" class={errorClass} hidden></p>
+        </div>
+
+        <div>
+          <label for="cf-whatsapp" class={labelClass}>WhatsApp number</label>
+          <!-- type="tel" + inputmode="numeric" is what puts a phone keypad in
+               front of someone filling this in on a phone, which is most of
+               them. No `pattern`: it would reject "+60 12-345 6789" and other
+               perfectly normal ways people write a number. The script checks
+               digit count instead. -->
+          <input
+            type="tel"
+            id="cf-whatsapp"
+            name="whatsapp"
+            required
+            autocomplete="tel"
+            inputmode="numeric"
+            placeholder="012-345 6789"
+            class={fieldClass}
+            aria-describedby="cf-whatsapp-error"
+          />
+          <p id="cf-whatsapp-error" class={errorClass} hidden></p>
+        </div>
+
+        <div>
+          <label for="cf-email" class={labelClass}>
+            Email <span class="font-normal text-text-faint">(optional)</span>
+          </label>
+          <input
+            type="email"
+            id="cf-email"
+            name="email"
+            autocomplete="email"
+            placeholder="you@business.com"
+            class={fieldClass}
+            aria-describedby="cf-email-error"
+          />
+          <p id="cf-email-error" class={errorClass} hidden></p>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="cf-package" class={labelClass}>Which package are you looking at?</label>
+          <select id="cf-package" name="package" class={fieldClass}>
+            {packageOptions.map((option) => <option value={option}>{option}</option>)}
+          </select>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="cf-message" class={labelClass}>What do you need?</label>
+          <textarea
+            id="cf-message"
+            name="message"
+            required
+            rows="5"
+            placeholder="A short description of your business and what you want the website to do. Even one or two lines is enough to start."
+            class={fieldClass}
+            aria-describedby="cf-message-error"></textarea>
+          <p id="cf-message-error" class={errorClass} hidden></p>
+        </div>
+
+        <!-- Network or API failure. Separate from the per-field errors because
+             it isn't the visitor's fault and it needs a way out, which is the
+             WhatsApp link. role="alert" so it's announced the moment it appears. -->
+        <div
+          id="form-error"
+          class="sm:col-span-2 hidden rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700"
+          role="alert"
+        >
+          <span id="form-error-text">Something went wrong sending that.</span>
+          {' '}
+          <a
+            href={whatsappLink('Hi Re-Vision Digital, your contact form is not working. I would like to enquire.')}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold underline underline-offset-2"
+          >
+            Message us on WhatsApp instead.
+          </a>
+        </div>
+
+        <div class="sm:col-span-2 flex flex-wrap items-center gap-4">
+          <Button type="submit" variant="primary" id="cf-submit">
+            <span data-submit-label>Send enquiry</span>
+          </Button>
+          <p class="text-sm text-text-faint">We never share your details with anyone.</p>
+        </div>
+
+        <!-- Politely announced status for screen readers during submission.
+             Visually hidden because sighted users get the same information from
+             the button label changing. -->
+        <p id="form-status" class="sr-only" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const successPanel = document.getElementById('form-success');
+  const errorBox = document.getElementById('form-error');
+  const errorText = document.getElementById('form-error-text');
+  const statusLine = document.getElementById('form-status');
+  const submitBtn = document.getElementById('cf-submit') as HTMLButtonElement | null;
+  const submitLabel = submitBtn?.querySelector('[data-submit-label]');
+
+  if (form && successPanel && errorBox && submitBtn) {
+    // Only now, once the script has definitely run, do we take validation off
+    // the browser. Before this line the native messages are the fallback.
+    form.noValidate = true;
+
+    type Rule = (value: string) => string | null;
+
+    const rules: Record<string, Rule> = {
+      name: (v) => (v.trim().length < 2 ? 'Please tell us your name.' : null),
+      business: (v) => (v.trim().length < 2 ? 'Please tell us your business name.' : null),
+      whatsapp: (v) => {
+        const digits = v.replace(/\D/g, '');
+        if (digits.length === 0) return 'We need a number to reply to.';
+        // 9 covers a Malaysian landline written without the country code,
+        // 15 is the international maximum. Anything outside that is a typo.
+        if (digits.length < 9 || digits.length > 15) return 'That does not look like a complete phone number.';
+        return null;
+      },
+      // Optional field, so an empty value passes. Only the shape of a value
+      // that IS there gets checked.
+      email: (v) => (v.trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? 'Check the email address.' : null),
+      message: (v) => (v.trim().length < 10 ? 'A sentence or two about what you need, please.' : null),
+    };
+
+    const fieldOf = (name: string) =>
+      form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | null;
+
+    const setError = (name: string, message: string | null) => {
+      const field = fieldOf(name);
+      const slot = document.getElementById(`cf-${name}-error`);
+      if (!field || !slot) return;
+      if (message) {
+        field.setAttribute('aria-invalid', 'true');
+        slot.textContent = message;
+        slot.hidden = false;
+      } else {
+        field.removeAttribute('aria-invalid');
+        slot.textContent = '';
+        slot.hidden = true;
+      }
+    };
+
+    const validate = (): boolean => {
+      let firstBad: HTMLElement | null = null;
+      for (const [name, rule] of Object.entries(rules)) {
+        const field = fieldOf(name);
+        if (!field) continue;
+        const message = rule(field.value);
+        setError(name, message);
+        if (message && !firstBad) firstBad = field;
+      }
+      // Focus rather than just colour the first problem, so a keyboard or
+      // screen reader user is taken to it instead of hunting for it.
+      firstBad?.focus();
+      return firstBad === null;
+    };
+
+    // Re-check a field once it has been marked bad, so the error clears as soon
+    // as it's fixed. Not before: validating on every keystroke of a field
+    // nobody has finished typing is just nagging.
+    for (const name of Object.keys(rules)) {
+      const field = fieldOf(name);
+      field?.addEventListener('input', () => {
+        if (field.getAttribute('aria-invalid') === 'true') setError(name, rules[name](field.value));
+      });
+      field?.addEventListener('blur', () => {
+        if (field.value.trim() !== '') setError(name, rules[name](field.value));
+      });
+    }
+
+    const setBusy = (busy: boolean) => {
+      submitBtn.disabled = busy;
+      submitBtn.classList.toggle('opacity-60', busy);
+      submitBtn.classList.toggle('pointer-events-none', busy);
+      if (submitLabel) submitLabel.textContent = busy ? 'Sending...' : 'Send enquiry';
+      if (statusLine) statusLine.textContent = busy ? 'Sending your enquiry.' : '';
+    };
+
+    const showError = (message: string) => {
+      if (errorText) errorText.textContent = message;
+      errorBox.classList.remove('hidden');
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      errorBox.classList.add('hidden');
+
+      if (!validate()) return;
+
+      setBusy(true);
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          form.classList.add('hidden');
+          successPanel.classList.remove('hidden');
+          successPanel.focus();
+          if (statusLine) statusLine.textContent = 'Your enquiry was sent.';
+          return;
+        }
+        showError(result.message || 'That did not send.');
+      } catch {
+        // Almost always a dropped connection rather than anything we did, so the
+        // wording avoids blaming their input and points at the other channel.
+        showError('That did not send, probably a connection problem.');
+      } finally {
+        // Skipped in practice on success, since we return before reaching it —
+        // the button belongs to a form that is hidden by then anyway.
+        setBusy(false);
+      }
+    });
+  }
+</script>

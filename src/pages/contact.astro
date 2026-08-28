@@ -1,24 +1,41 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import Button from '../components/ui/Button.astro';
+import ContactForm from '../components/widgets/ContactForm.astro';
 import { whatsappLink } from '../navigation';
 
 const title = 'Contact Our Team - Re-Vision Digital';
 ---
 
 <MainLayout title={title}>
-    <section class="max-w-3xl mx-auto px-4 sm:px-6 py-20">
-        <!-- Every page needs exactly one h1. This page had none, which hurts
-             both SEO and screen-reader navigation. -->
-        <h1 class="text-4xl font-bold font-display mb-6">Get in Touch</h1>
-        <p class="text-lg text-text-muted mb-4">
-            We love to hear from you! Whether you have a question about our services, want to discuss a project, or just want to say hello, feel free to reach out. Our team is here to help and we look forward to connecting with you.
-        </p>
-        <p class="text-lg text-text-muted mb-8">
-            Please contact us for a custom quote based on your specific needs and requirements.
-        </p>
-        <Button variant="primary" href={whatsappLink('Hi Re-Vision Digital, I would like a quote.')} target="_blank">
-            Chat with us on WhatsApp
-        </Button>
-    </section>
+
+  <!-- Two ways in, on purpose. WhatsApp is faster and most of this market
+       prefers it, but a form catches the people who won't message a stranger
+       from their personal number, and it arrives with the details already
+       filled in instead of five rounds of questions. -->
+  <section class="max-w-2xl mx-auto px-4 sm:px-6 pt-20 pb-12 text-center">
+    <!-- Every page needs exactly one h1. This page had none, which hurt
+         both SEO and screen-reader navigation. -->
+    <h1 class="text-4xl font-bold font-display mb-6">Get in Touch</h1>
+    <p class="text-lg text-text-muted mx-auto mb-8">
+      Tell us what your business does and we'll tell you what it would cost to get it online.
+      Quotes are free and we won't chase you afterwards.
+    </p>
+    <Button
+      variant="primary"
+      href={whatsappLink('Hi Re-Vision Digital, I would like a quote.')}
+      target="_blank"
+      icon="tabler:brand-whatsapp"
+    >
+      Chat with us on WhatsApp
+    </Button>
+    <p class="text-sm text-text-faint mt-4">Fastest reply, usually within the hour.</p>
+  </section>
+
+  <ContactForm
+    tagline="Or send a message"
+    title="Tell us about your business"
+    subtitle="Fill this in and we'll reply as soon as possible."
+  />
+
 </MainLayout>

@@ -4,31 +4,16 @@ import Hero from '../components/widgets/Hero.astro';
 import Button from '../components/ui/Button.astro';
 import ProjectCard from '../components/ui/ProjectCard.astro';
 import Steps from '../components/widgets/Steps.astro';
+import Features from '../components/widgets/Features.astro';
 import { projects } from '../data/projects';
 import { steps } from '../data/steps';
+import { services } from '../data/services';
 import { whatsappLink } from '../navigation';
 import heroImage from '../assets/images/hero-mockup.svg';
 
 const title = 'Re-Vision Digital | WaaS Agency in Sabah';
 
-// SIAL BANYAK MAU LETAK
 const featuredProjects = projects.slice(0, 3);
-
-const services = [
-  {
-    title: 'Website Development',
-    description: 'We build fast and modern websites for Sabah SME Businesses.',
-  },
-  {
-    title: 'E-Commerce Solutions',
-    description: 'We provide e-commerce solutions to help you sell online.',
-  },
-  {
-    title: 'Digital Marketing',
-    description: 'We help you reach your target audience through digital marketing.',
-  },
-];
-
 ---
 
 <MainLayout title={title}>
@@ -61,20 +46,17 @@ const services = [
     </Fragment>
   </Hero>
   
-  <!-- Services Section -->
-  <section class="py-16 bg-background">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8 text-center">Our Services</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {services.map((service) => (
-          <div class="bg-surface p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-            <h3 class="text-xl font-semibold mb-4">{service.title}</h3>
-            <p class="text-text-muted">{service.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  <!-- Services. bg-background keeps the Hero → Services → Steps alternation
+       intact; Steps is bg-surface and the two would merge otherwise.
+       No action slot on purpose — Steps has the WhatsApp CTA a screen below,
+       and two of them this close dilutes both. -->
+  <Features
+    id="services"
+    tagline="What we do"
+    title="Everything your business needs to get online"
+    subtitle="One monthly fee covers the build, the hosting and the changes you ask for later."
+    items={services}
+  />
 
   <!-- How It Works — the objection-killer section.
        Sits right after Services on purpose: the visitor has just learned
