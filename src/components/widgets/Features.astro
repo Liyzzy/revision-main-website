@@ -13,22 +13,8 @@ interface Props {
 const { id, tagline, title, subtitle, items } = Astro.props;
 ---
 
-<!--
-  AstroWind's Features layout (icon left of the text), not Features2 (icon on
-  top of a bordered card). Rows, not cards, on purpose: Steps sits directly
-  below this and the Projects grid below that, so a third card treatment on one
-  screen would flatten the page rather than organise it.
-
-  The item is inlined here rather than split into a ui/ServiceCard.astro —
-  it's a badge, an h3 and a p, and a card component would only forward three
-  props straight through. Extract it when the "What's included" grid lands and
-  there's a second caller.
-
-  <ul>, not <ol>: services have no order, the way Steps genuinely do.
--->
 <section id={id} class="py-16 md:py-24 bg-background scroll-mt-20">
-  <!-- max-w-5xl, not the max-w-7xl used by Steps and Team: an icon-left row
-       with a paragraph beside it reads stretched and thin at 80rem. -->
+
   <div class="max-w-5xl mx-auto px-4 sm:px-6">
 
     <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
@@ -36,26 +22,16 @@ const { id, tagline, title, subtitle, items } = Astro.props;
         <p class="text-sm text-brand-400 font-bold tracking-wide uppercase mb-2">{tagline}</p>
       )}
       {title && <h2 class="text-3xl font-bold font-display mb-4">{title}</h2>}
-      <!-- mx-auto counteracts the global `p { max-width: 72ch }` rule, which
-           would otherwise left-align this text inside a centred column. -->
+
       {subtitle && (
         <p class="text-lg text-text-muted mx-auto">{subtitle}</p>
       )}
     </div>
 
-    <!-- Row gap deliberately larger than the column gap. There's no card
-         border separating these items, so the rows need the extra air or they
-         blur together. -->
     <ul class="grid gap-8 sm:grid-cols-2 md:gap-x-10 md:gap-y-12">
       {items.map((service) => (
         <li class="flex items-start gap-4">
 
-          <!-- Same badge shape as the numbered one in Steps.astro.
-               items-start (not items-center) aligns it to the first line of
-               the heading instead of floating beside a three-line block.
-               shrink-0 is load-bearing: without it the circle squashes into an
-               oval the moment a title wraps.
-               aria-hidden because it's decoration — the h3 carries the meaning. -->
           <span
             class="shrink-0 w-12 h-12 rounded-full bg-brand-400 text-white flex items-center justify-center"
             aria-hidden="true"

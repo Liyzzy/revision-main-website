@@ -63,9 +63,7 @@ const {
         </div>
         {content && <Fragment set:html={content} />}
       </div>
-      <!-- No `inferSize` on <Image> below: because the image is IMPORTED in
-           index.astro rather than passed as a path string, Astro already knows
-           its real dimensions and bakes width/height into the HTML for us. -->
+
       {
         image && (
           <div class="relative m-auto max-w-5xl">

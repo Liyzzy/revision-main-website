@@ -2,30 +2,23 @@
 import { footerData } from '../navigation';
 import Icon from './ui/Icon.astro';
 
-// Social icons are always visible so you can see the design while building.
-// But an icon whose href is still '#' renders as a plain <span>, not an <a> —
-// so it's not a dead link a visitor can click into nowhere.
-// Fill in the real URL in navigation.ts and it becomes a working link
-// automatically, no changes needed in this file.
 const isPlaceholder = (href: string) => !href || href === '#';
 ---
 
 <footer class="max-w-7xl mx-auto px-4 sm:px-6 py-16 border-t border-border">
   <div class="flex flex-col lg:flex-row gap-12 justify-between">
-    <!-- Brand + legal links -->
+
     <div>
-      <!-- Same treatment as the header logo, so the brand reads consistently. -->
+
       <a href="/" class="font-display font-semibold text-[20px] tracking-tight text-text no-underline">
         Re<span class="text-brand-400 px-[2px]" aria-hidden="true">·</span>Vision Digital
       </a>
       <p class="mt-3 text-sm text-text-faint max-w-xs">
         Websites for small businesses in Sabah.
       </p>
-      <!-- Terms / Privacy links removed until those pages actually exist.
-           Add them back here once you create /terms and /privacy. -->
+
     </div>
 
-    <!-- Link columns, driven by footerData -->
     <div class="flex flex-col sm:flex-row gap-8 sm:gap-16">
       {footerData.links.map((column) => (
         <div>
@@ -40,7 +33,6 @@ const isPlaceholder = (href: string) => !href || href === '#';
     </div>
   </div>
 
-  <!-- Divider + bottom bar: copyright left, socials right -->
   <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-8 border-t border-border">
     <p class="text-text-faint text-sm">{footerData.footNote}</p>
     <div class="flex gap-4">

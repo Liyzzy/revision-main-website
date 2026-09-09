@@ -1,11 +1,6 @@
 import { getPermalink } from './utils/permalinks';
 
-// ============================================================
-// ONE PLACE to change your WhatsApp number.
-// Format: country code + number, no +, no spaces, no dashes.
-// Malaysia example: 011-1234 5678  ->  601112345678
-// ============================================================
-export const WHATSAPP_NUMBER = '60178522267'; 
+export const WHATSAPP_NUMBER = '60178522267';
 
 export const whatsappLink = (message = 'Hi Re-Vision Digital, saya berminat!') =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -56,16 +51,13 @@ export const footerData = {
       title: 'Agency',
       links: [
         { text: 'About Us', href: getPermalink('/about') },
-        // The FAQ lives on the pricing page, so link to that anchor —
-        // not /#faq, which was pointing at a section that doesn't exist.
+
         { text: 'FAQ', href: getPermalink('/pricing') + '#faq' },
         { text: 'Contact Us', href: getPermalink('/contact') },
       ],
     },
   ],
-  // TODO: replace '#' with your real profile URLs once the accounts exist.
-  // Any link still set to '#' is hidden in Footer.astro rather than rendered
-  // as a dead link, so it's safe to leave these until you're ready.
+
   socialLinks: [
     { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '#' },
     { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '#' },

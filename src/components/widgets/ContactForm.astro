@@ -18,9 +18,6 @@ const {
   subtitle = 'Fill this in and we will reply as soon as possible.',
 } = Astro.props;
 
-// Same dev-only warning pattern as Icon.astro. Without it a placeholder key
-// fails completely silently: the form submits, the visitor sees the thank-you
-// panel, and the enquiry goes nowhere.
 if (import.meta.env.DEV && !isAccessKeyConfigured) {
   console.warn(
     '[ContactForm] WEB3FORMS_ACCESS_KEY is still the placeholder — submissions will fail. Fix it in src/data/contact.ts.'
@@ -33,35 +30,18 @@ const fieldClass =
 const errorClass = 'mt-1.5 text-sm text-red-600';
 ---
 
-<!--
-  Contact form, posted to Web3Forms.
-
-  Why a third-party endpoint: Astro builds this site to static HTML, so there's
-  no server of ours to receive a POST. Web3Forms takes the submission and emails
-  it on. Swapping providers later means changing one URL and one hidden field.
-
-  Progressive enhancement is deliberate. The <form> has a real action and
-  method, so it still works with JavaScript switched off (the visitor just gets
-  Web3Forms' own thank-you page instead of ours). The script below sets
-  noValidate and takes over only once it has actually run, which is also why the
-  custom error messages live in the script rather than the markup.
--->
 <section id={id} class="py-16 md:py-24 bg-surface scroll-mt-20">
   <div class="max-w-2xl mx-auto px-4 sm:px-6">
 
     <div class="text-center mb-10 md:mb-12">
       {tagline && <p class="text-sm text-brand-400 font-bold tracking-wide uppercase mb-2">{tagline}</p>}
       {title && <h2 class="text-3xl font-bold font-display mb-4">{title}</h2>}
-      <!-- mx-auto counteracts the global `p { max-width: 72ch }` rule, which
-           would otherwise left-align this inside a centred column. -->
+
       {subtitle && <p class="text-lg text-text-muted mx-auto">{subtitle}</p>}
     </div>
 
     <div class="rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm">
 
-      <!-- Success panel. Hidden until a submission comes back clean, at which
-           point the form is hidden and focus moves here — otherwise a screen
-           reader user tabs on into a form that is no longer visible. -->
       <div id="form-success" class="hidden text-center py-8" tabindex="-1">
         <span
           class="mx-auto mb-5 w-14 h-14 rounded-full bg-brand-400 text-white flex items-center justify-center"
@@ -90,8 +70,7 @@ const errorClass = 'mt-1.5 text-sm text-red-600';
         method="POST"
         class="grid gap-5 sm:grid-cols-2"
       >
-        <!-- Web3Forms plumbing. `access_key` routes the mail, `subject` and
-             `from_name` are what you see in your inbox before opening it. -->
+
         <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
         <input type="hidden" name="subject" value={FORM_SUBJECT} />
         <input type="hidden" name="from_name" value="Re-Vision Digital Website" />
@@ -138,11 +117,7 @@ const errorClass = 'mt-1.5 text-sm text-red-600';
 
         <div>
           <label for="cf-whatsapp" class={labelClass}>WhatsApp number</label>
-          <!-- type="tel" + inputmode="numeric" is what puts a phone keypad in
-               front of someone filling this in on a phone, which is most of
-               them. No `pattern`: it would reject "+60 12-345 6789" and other
-               perfectly normal ways people write a number. The script checks
-               digit count instead. -->
+
           <input
             type="tel"
             id="cf-whatsapp"
@@ -193,9 +168,6 @@ const errorClass = 'mt-1.5 text-sm text-red-600';
           <p id="cf-message-error" class={errorClass} hidden></p>
         </div>
 
-        <!-- Network or API failure. Separate from the per-field errors because
-             it isn't the visitor's fault and it needs a way out, which is the
-             WhatsApp link. role="alert" so it's announced the moment it appears. -->
         <div
           id="form-error"
           class="sm:col-span-2 hidden rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700"
@@ -220,15 +192,11 @@ const errorClass = 'mt-1.5 text-sm text-red-600';
           <p class="text-sm text-text-faint">We never share your details with anyone.</p>
         </div>
 
-        <!-- Politely announced status for screen readers during submission.
-             Visually hidden because sighted users get the same information from
-             the button label changing. -->
         <p id="form-status" class="sr-only" role="status" aria-live="polite"></p>
       </form>
     </div>
   </div>
 </section>
-
 
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
@@ -240,8 +208,7 @@ const errorClass = 'mt-1.5 text-sm text-red-600';
   const submitLabel = submitBtn?.querySelector('[data-submit-label]');
 
   if (form && successPanel && errorBox && submitBtn) {
-    // Only now, once the script has definitely run, do we take validation off
-    // the browser. Before this line the native messages are the fallback.
+
     form.noValidate = true;
 
     type Rule = (value: string) => string | null;
@@ -252,13 +219,11 @@ const errorClass = 'mt-1.5 text-sm text-red-600';
       whatsapp: (v) => {
         const digits = v.replace(/\D/g, '');
         if (digits.length === 0) return 'We need a number to reply to.';
-        // 9 covers a Malaysian landline written without the country code,
-        // 15 is the international maximum. Anything outside that is a typo.
+
         if (digits.length < 9 || digits.length > 15) return 'That does not look like a complete phone number.';
         return null;
       },
-      // Optional field, so an empty value passes. Only the shape of a value
-      // that IS there gets checked.
+
       email: (v) => (v.trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? 'Check the email address.' : null),
       message: (v) => (v.trim().length < 10 ? 'A sentence or two about what you need, please.' : null),
     };
@@ -290,15 +255,11 @@ const errorClass = 'mt-1.5 text-sm text-red-600';
         setError(name, message);
         if (message && !firstBad) firstBad = field;
       }
-      // Focus rather than just colour the first problem, so a keyboard or
-      // screen reader user is taken to it instead of hunting for it.
+
       firstBad?.focus();
       return firstBad === null;
     };
 
-    // Re-check a field once it has been marked bad, so the error clears as soon
-    // as it's fixed. Not before: validating on every keystroke of a field
-    // nobody has finished typing is just nagging.
     for (const name of Object.keys(rules)) {
       const field = fieldOf(name);
       field?.addEventListener('input', () => {
@@ -347,12 +308,10 @@ const errorClass = 'mt-1.5 text-sm text-red-600';
         }
         showError(result.message || 'That did not send.');
       } catch {
-        // Almost always a dropped connection rather than anything we did, so the
-        // wording avoids blaming their input and points at the other channel.
+
         showError('That did not send, probably a connection problem.');
       } finally {
-        // Skipped in practice on success, since we return before reaching it —
-        // the button belongs to a form that is hidden by then anyway.
+
         setBusy(false);
       }
     });

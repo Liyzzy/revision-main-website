@@ -21,8 +21,7 @@ const { id, tagline, title, subtitle, items } = Astro.props;
         <p class="text-sm text-brand-400 font-bold tracking-wide uppercase mb-2">{tagline}</p>
       )}
       {title && <h2 class="text-3xl font-bold font-display mb-4">{title}</h2>}
-      <!-- mx-auto counteracts the global `p { max-width: 72ch }` rule, which
-           would otherwise left-align this text inside a centred column. -->
+
       {subtitle && (
         <p class="text-lg text-text-muted mx-auto">{subtitle}</p>
       )}

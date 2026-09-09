@@ -12,14 +12,6 @@ interface Props {
 const { id, tagline, title, subtitle, items } = Astro.props;
 ---
 
-<!--
-  Deliberately NOT AstroWind's Steps layout (vertical timeline with a photo
-  glued to one side). This is a horizontal track on desktop that collapses to
-  a vertical rail on mobile — same information, different shape.
-
-  Markup note: it's an <ol> because the order genuinely matters. Screen
-  readers will announce "list of 3 items", which a stack of <div>s wouldn't.
--->
 <section id={id} class="py-16 md:py-24 bg-surface scroll-mt-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
@@ -35,9 +27,6 @@ const { id, tagline, title, subtitle, items } = Astro.props;
 
     <ol class="relative grid gap-10 md:grid-cols-3 md:gap-8">
 
-      <!-- Connecting line. Desktop: horizontal, sitting behind the numbers.
-           Hidden on mobile, where each item gets its own left rail instead.
-           aria-hidden because it's pure decoration. -->
       <div
         class="hidden md:block absolute top-6 left-[16.666%] right-[16.666%] h-px bg-border"
         aria-hidden="true"
@@ -47,7 +36,6 @@ const { id, tagline, title, subtitle, items } = Astro.props;
       {items.map((step, i) => (
         <li class="relative flex gap-5 md:block md:text-center">
 
-          <!-- Mobile-only vertical rail, skipped on the last item -->
           {i < items.length - 1 && (
             <span
               class="md:hidden absolute left-6 top-12 bottom-[-2.5rem] w-px bg-border"
@@ -55,7 +43,6 @@ const { id, tagline, title, subtitle, items } = Astro.props;
             />
           )}
 
-          <!-- Number badge. relative + bg so it punches a hole in the line. -->
           <span
             class="relative z-10 shrink-0 w-12 h-12 rounded-full bg-brand-400 text-white font-display font-extrabold text-lg flex items-center justify-center md:mx-auto ring-8 ring-surface"
             aria-hidden="true"
@@ -65,8 +52,7 @@ const { id, tagline, title, subtitle, items } = Astro.props;
 
           <div class="md:mt-5">
             <h3 class="text-xl font-bold font-display mb-2">{step.title}</h3>
-            <!-- mx-auto counteracts the global `p { max-width: 72ch }` rule,
-                 which would otherwise left-align this text inside a centred column. -->
+
             <p class="text-text-muted md:mx-auto">{step.description}</p>
           </div>
         </li>

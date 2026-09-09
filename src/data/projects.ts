@@ -1,36 +1,28 @@
-/**
- * Single source of truth for portfolio projects.
- *
- * This used to be copy-pasted into BOTH index.astro and projects.astro,
- * which means every edit had to be made twice (and they had already drifted).
- * Now both pages import from here.
- *
- * `image: null` renders a "Coming soon" placeholder box instead of a broken
- * image icon. When you have a real screenshot, drop it in `public/images/`
- * and set `image: '/images/whatever.jpg'`.
- */
 export interface Project {
   name: string;
   description: string;
   image: string | null;
-  /** Optional link to a case-study page. Leave undefined until those exist. */
+
   link?: string;
 }
 
 export const projects: Project[] = [
   {
-    name: 'Project A',
-    description: 'A brief description of Project A.',
-    image: null,
+    name: 'Medical Clinic',
+    description:
+      'Built around one job, getting appointments booked. Treatment list, doctor profiles, opening hours, a map, and a booking form that actually works on a phone.',
+    image: '/images/clinic-demo.webp',
   },
   {
-    name: 'Project B',
-    description: 'A brief description of Project B.',
-    image: null,
+    name: 'Non-Profit Campaigns',
+    description:
+      'For an organisation running several programmes at once. Every campaign gets its own page, with impact numbers, volunteer sign-up, and a form that adapts to who is filling it in.',
+    image: '/images/ngo-demo.webp',
   },
   {
-    name: 'Project C',
-    description: 'A brief description of Project C.',
-    image: null,
+    name: 'Creative Portfolio',
+    description:
+      'A single-page site for a freelancer or a small studio. Work, skills and contact all on one scroll. The simplest thing we build and the quickest to get live.',
+    image: '/images/portfolio-demo.webp',
   },
 ];
