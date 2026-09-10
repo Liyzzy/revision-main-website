@@ -1,0 +1,30 @@
+# Production-style static site — this is what `docker compose up` runs.
+#   http://localhost:8080
+#
+# Dev server with hot reload lives behind the "dev" profile:
+#   docker compose --profile dev up dev   ->  http://localhost:4321
+
+services:
+  web:
+    build:
+      context: .
+      target: prod
+    image: revision-main-website:latest
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  dev:
+    profiles: ["dev"]
+    build:
+      context: .
+      target: dev
+    ports:
+      - "4321:4321"
+    volumes:
+      # Live-edit the source from the host...
+      - .:/app
+      # ...but keep the container's own node_modules (built for Alpine Linux).
+      - /app/node_modules
+    environment:
+      DOCKER_DEV: "true"

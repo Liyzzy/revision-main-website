@@ -1,0 +1,31 @@
+# Never copy host dependencies into the image — they may be built for a
+# different OS/arch than the container. `npm ci` reinstalls them inside.
+node_modules
+
+# build output / generated types (rebuilt in the image)
+dist
+.astro
+
+# vcs + editor
+.git
+.gitignore
+.gitattributes
+.vscode
+.idea
+.agents
+
+# docs
+README.md
+ROADMAP.md
+
+# logs
+*-debug.log*
+
+# local secrets
+.env
+.env.*
+!.env.example
+
+# os junk
+.DS_Store
+Thumbs.db

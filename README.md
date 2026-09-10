@@ -38,22 +38,71 @@ The website focuses on:
 
 ## Getting Started
 
-### 1. Clone the repository
+Clone the repository first:
 
 ```bash
 git clone https://github.com/Liyzzy/revision-main-website.git
 cd revision-main-website
 ```
 
-### 2. Install dependencies
+Then pick **one** of the two options below. Docker is the easiest — you don't
+need Node.js installed at all.
+
+### Option A — Docker (recommended)
+
+The only prerequisite is [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+(Windows/macOS) or Docker Engine + Compose (Linux). From the project folder:
+
+```bash
+docker compose up
+```
+
+That's it. The first run takes a couple of minutes to build; after that it
+starts in seconds. Open:
+
+```bash
+http://localhost:8080
+```
+
+This builds the real production site and serves it with nginx — exactly what a
+visitor would get.
+
+**Working on the code?** Use the dev server instead. It has hot reload, so the
+browser updates as soon as you save a file:
+
+```bash
+docker compose --profile dev up dev
+```
+
+Open http://localhost:4321. Your local files are mounted into the container, so
+edit them normally in your editor.
+
+Other useful commands:
+
+```bash
+docker compose up -d          # run in the background
+docker compose down           # stop and clean up
+docker compose up --build     # rebuild after changing dependencies
+docker compose logs -f        # follow the logs
+```
+
+Notes:
+
+- If port 8080 or 4321 is already taken, change the left-hand number in the
+  `ports:` section of `docker-compose.yml` (e.g. `"3000:80"`).
+- The dev server watches files by polling (the only reliable way to see edits
+  through a Docker mount on Windows/macOS), so the first start takes about
+  30 seconds before it prints `ready`. Give it a moment.
+- `docker compose up` serves whatever was built into the image. After changing
+  source files, re-run with `--build` to see them on port 8080 — or just use the
+  dev server, which needs no rebuild.
+
+### Option B — Node.js directly
+
+Requires Node.js 22.12 or newer.
 
 ```bash
 npm install
-```
-
-### 3. Start the development server
-
-```bash
 npm run dev
 ```
 
@@ -67,6 +116,8 @@ http://localhost:4321
 
 ```bash
 revision-main-website/
+├── docker/
+│   └── nginx.conf          # web server config for the production image
 ├── public/
 ├── src/
 │   ├── components/
@@ -74,6 +125,8 @@ revision-main-website/
 │   ├── pages/
 │   └── styles/
 ├── astro.config.mjs
+├── docker-compose.yml      # `docker compose up` entry point
+├── Dockerfile              # dev + production images
 ├── package.json
 └── README.md
 ```
