@@ -1,5 +1,9 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import Pricing from '../components/widgets/Pricing.astro';
+import Button from '../components/ui/Button.astro';
+import { packages } from '../data/packages';
+import { whatsappLink } from '../navigation';
 
 const title = 'Pricing - Re-Vision Digital';
 
@@ -29,55 +33,25 @@ const faqs = [
     answer: 'Our packages are billed monthly with no long-term lock-in contract — you can upgrade, downgrade, or cancel anytime.',
   },
 ];
-
-const packages = [
-    {
-        name : 'Starter',
-        price : 'RM199/month',
-        features : [
-            'Clean 1-page website',
-            'WhatsApp button',
-            'Responsive on mobile',
-            'Basic SEO setup',
-        ]
-    },
-    {
-        name: 'Growth',
-        price: 'RM299/month',
-        features: ['Everything in Starter', 'Up to 5 pages', 'Contact form', 'Priority updates'],
-    },
-    {
-        name: 'Custom Enterprise',
-        price: 'Contact us',
-        features: ['Unlimited pages', 'Custom features', 'Priority support'],
-    },
-];
 ---
 
 <MainLayout title={title}>
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 py-20">
-        <h1 class="text-4xl font-bold font-display mb-4 text-center">Packages and Prices</h1>
-        <p class="text-lg text-text-muted mb-10 text-center mx-auto">
-            Simple monthly pricing, no long-term contract.
-        </p>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {packages.map((pkg) => (
-                <div class="border border-border rounded-lg p-6">
-                <h2 class="text-xl font-bold font-display">{pkg.name}</h2>
-                <p class="text-2xl font-bold text-brand-400 my-2">{pkg.price}</p>
-                <ul class="text-text-muted text-sm space-y-1">
-                    {pkg.features.map((f) => <li>{f}</li>)}
-                </ul>
-                </div>
-            ))}
-        </div>
-        <p class="text-lg text-text-muted mb-4 mt-10">
-            We offer simple, transparent pricing for our web design services. Our goal is to provide high-quality websites at a fair price for small businesses in Sabah.
-        </p>
-        <p class="text-lg text-text-muted">
-            Please contact us for a custom quote based on your specific needs and requirements.
-        </p>
-    </section>
+    <Pricing
+      headingLevel="h1"
+      title="Packages and Prices"
+      subtitle="Simple monthly pricing. No long-term contract — upgrade, downgrade or cancel anytime."
+      items={packages}
+    >
+    <Button
+      slot="action"
+      variant="secondary"
+      href={whatsappLink('Hi Re-Vision Digital, I am not sure which plan fits my business. Can you help?')}
+      target="_blank"
+      icon="tabler:brand-whatsapp"
+    >
+      Not sure which plan? Ask us
+    </Button>
+  </Pricing>
 
     <section id="faq" class="py-16 bg-background scroll-mt-20">
       <div class="container mx-auto px-4 max-w-3xl">

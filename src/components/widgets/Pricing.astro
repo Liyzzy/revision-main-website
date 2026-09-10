@@ -1,0 +1,51 @@
+---
+import type { Package } from '../../data/packages';
+import PricingCard from '../ui/PricingCard.astro';
+
+interface Props {
+  id?: string;
+  tagline?: string;
+  title?: string;
+  subtitle?: string;
+  items: Package[];
+  // A page needs exactly one <h1>. On /pricing this section IS the
+  // page, so it takes the h1; anywhere else it should be an h2.
+  headingLevel?: 'h1' | 'h2';
+}
+
+const { id, tagline, title, subtitle, items, headingLevel = 'h2' } = Astro.props;
+
+// Capitalised, so Astro renders it as a tag instead of literal text.
+const Heading = headingLevel;
+---
+
+<section id={id} class="py-16 md:py-24 bg-background scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+    <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+      {tagline && (
+        <p class="text-sm text-brand-400 font-bold tracking-wide uppercase mb-2">{tagline}</p>
+      )}
+      {title && <Heading class="text-3xl font-bold font-display mb-4">{title}</Heading>}
+      <!-- mx-auto counteracts the global `p { max-width: 72ch }` rule, which
+           would otherwise left-align this text inside a centred column. -->
+      {subtitle && <p class="text-lg text-text-muted mx-auto">{subtitle}</p>}
+    </div>
+
+    <!-- <ul>, not a stack of divs: screen readers announce "list of 3
+         items", which is genuinely useful when comparing plans.
+         Each <li> is `flex` so the card inside can stretch to full
+         height while still respecting its own vertical margin. -->
+    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((pkg) => (
+        <li class="flex">
+          <PricingCard {...pkg} />
+        </li>
+      ))}
+    </ul>
+
+    <div class="text-center mt-12">
+      <slot name="action" />
+    </div>
+  </div>
+</section>
