@@ -131,6 +131,28 @@ revision-main-website/
 └── README.md
 ```
 
+## Demo Sites
+
+Every demo template runs inside this site at `/demos/<name>/`, served straight
+from `public/demos/`. Those folders are build output, so don't edit them by hand.
+
+The templates are separate projects that live next to this repo, in
+`../DEMO WEBS FOR REVIZION`. After changing one, rebuild the demos (needs
+Node.js 22 or newer):
+
+```bash
+npm run build:demos                # all of them
+npm run build:demos -- cafe        # just one
+npm run build:demos -- --shots     # also retake the thumbnails in public/images/demos
+```
+
+The script builds each template, copies it into `public/demos/<name>/` and
+points its links at that folder. Thumbnails use the Chrome or Edge already on
+your computer. If the templates are somewhere else, set `DEMOS_DIR` first.
+
+To add a new demo, add it to the list at the top of `scripts/build-demos.mjs`,
+run the script with `--shots`, then add its card to `src/data/projects.ts`.
+
 ## Current Status
 
 This project is currently in active development. The current focus is building the main homepage layout, styling system, and reusable sections for the agency website.
