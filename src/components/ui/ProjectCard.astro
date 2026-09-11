@@ -29,8 +29,14 @@ const { name, description, image, link } = Astro.props;
   <p class="text-text-muted text-sm my-2 flex-1">{description}</p>
 
   {link && (
-    <Button variant="link" href={link} class="self-start">
-      View Project
+    <Button
+      variant="link"
+      href={link}
+      target="_blank"
+      aria-label={`View the ${name} live demo (opens in a new tab)`}
+      class="self-start"
+    >
+      View live demo
     </Button>
   )}
 </article>

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* The demos in public/demos ship their own CSS, keep their classes out of ours. */
+@source not "../../public/demos";
+
 @theme {
 
   --color-brand-50: oklch(0.97 0.01 145);

@@ -1,0 +1,1 @@
+function e(e){return e.split(` `).filter(Boolean).map(e=>e[0]?.toUpperCase()??``).slice(0,2).join(``)}function t(e){let[t,n]=e.split(`:`),r=Number(t),i=Number(n),a=r>=12?`PM`:`AM`;return`${r%12==0?12:r%12}:${i.toString().padStart(2,`0`)} ${a}`}var n=[`Monday`,`Tuesday`,`Wednesday`,`Thursday`,`Friday`,`Saturday`,`Sunday`];export{t as n,e as r,n as t};

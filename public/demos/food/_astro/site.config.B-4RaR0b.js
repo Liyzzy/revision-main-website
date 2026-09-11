@@ -1,0 +1,1 @@
+const s={name:"Rasa Lokal2",whatsapp:"60128889977",currency:"RM",hours:{mon:[["08:00","17:00"]],tue:[["08:00","17:00"]],wed:[["08:00","17:00"]],thu:[["08:00","17:00"]],fri:[["08:00","12:15"],["14:30","17:00"]],sat:[["08:00","15:00"]],sun:[]},holidays:[{date:"2026-09-16",note:"Hari Malaysia",hours:[]},{date:"2026-12-25",note:"Christmas",hours:[]}],closingSoonMinutes:45};export{s};
